@@ -23,13 +23,13 @@ class NotificationService extends StatefulWidget {
   const NotificationService({super.key, required this.child});
 
   static String? androidIcon;
-  static Function(String)? notificationClickedRouteHandler;
+  static Function(String, RemoteMessage)? notificationClickedRouteHandler;
 
   final Widget child;
 
   static Future<void> initNotificationService(
       {String? androidIcon,
-      Function(String)? notificationClickedRouteHandler}) async {
+      Function(String, RemoteMessage)? notificationClickedRouteHandler}) async {
     NotificationService.androidIcon = androidIcon;
     NotificationService.notificationClickedRouteHandler =
         notificationClickedRouteHandler;
@@ -120,7 +120,7 @@ class _NotificationServiceState extends State<NotificationService> {
         if (routeFromNotification != null) {
           if (NotificationService.notificationClickedRouteHandler != null) {
             NotificationService.notificationClickedRouteHandler
-                ?.call(routeFromNotification);
+                ?.call(routeFromNotification, message);
           } else {
             Navigator.of(context).pushNamed(routeFromNotification);
           }
