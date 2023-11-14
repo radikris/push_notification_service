@@ -22,9 +22,18 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 class NotificationService extends StatefulWidget {
   const NotificationService({super.key, required this.child});
 
+  static String? androidIcon;
+  static Function(String)? notificationClickedRouteHandler;
+
   final Widget child;
 
-  static Future<void> initNotificationService() async {
+  static Future<void> initNotificationService(
+      {String? androidIcon,
+      Function(String)? notificationClickedRouteHandler}) async {
+    NotificationService.androidIcon = androidIcon;
+    NotificationService.notificationClickedRouteHandler =
+        notificationClickedRouteHandler;
+
     FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
 
     await flutterLocalNotificationsPlugin
@@ -94,7 +103,7 @@ class _NotificationServiceState extends State<NotificationService> {
                 channelDescription: channel.description,
                 color: Colors.white,
                 playSound: true,
-                icon: '@mipmap/ic_launcher',
+                icon: NotificationService.androidIcon ?? '@mipmap/ic_launcher',
               ),
             ));
       }
@@ -102,14 +111,20 @@ class _NotificationServiceState extends State<NotificationService> {
 
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
       debugPrint('A new onMessageOpenedApp event was published!');
-      /*     RemoteNotification? notification = message.notification;
-      AndroidNotification? android = message.notification?.android; */
       debugPrint('DETAILS: ${message.data}');
 
       if (message.notification != null) {
         //"route" will be your root parameter you sending from firebase
-        final routeFromNotification = message.data["route"];
-        Navigator.of(context).pushNamed(routeFromNotification);
+        final routeFromNotification =
+            message.data.containsKey('route') ? message.data['route'] : null;
+        if (routeFromNotification != null) {
+          if (NotificationService.notificationClickedRouteHandler != null) {
+            NotificationService.notificationClickedRouteHandler
+                ?.call(routeFromNotification);
+          } else {
+            Navigator.of(context).pushNamed(routeFromNotification);
+          }
+        }
       }
 /*       if (notification != null && android != null) {
         //TODO NAVIGATE USER
