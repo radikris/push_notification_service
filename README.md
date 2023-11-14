@@ -94,12 +94,28 @@ In your Dart code, initialize the `NotificationService` in your mail file:
 ```dart
 import 'path_to_notification_service.dart';
 
-void main() {
-  NotificationService.initNotificationService();
-  runApp(MyApp());
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  await NotificationService.initNotificationService();
+
+  final token = await NotificationService.requestPermissionWithTokenOrNull();
+  print("$token");
+  //If subscribe based sent notification then use this token
+
+  runApp(MaterialApp(
+    home: NotificationService(child: OnboardingPage()),
+  ));
 }
+
 ```
 
 Now, you can request the token using the `NotificationService` in your app.
 
 Remember to replace `path_to_notification_service.dart` with the actual path to your notification service file.
+
+repository: https://github.com/radikris/push_notification_service
