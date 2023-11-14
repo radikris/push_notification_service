@@ -1,5 +1,5 @@
 name: push_notification_service
-description: A new Flutter package project.
+description: Push notification service for Firebase Cloud Messaging
 version: 0.0.1
 homepage:
 
