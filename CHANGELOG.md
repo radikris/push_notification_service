@@ -1,3 +1,7 @@
+## 0.0.6
+
+- Local notification ios settings
+
 ## 0.0.5
 
 - Local notification tap handler and android icon settings

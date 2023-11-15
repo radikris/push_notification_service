@@ -1,6 +1,6 @@
 name: push_notification_service
 description: Push notification service for Firebase Cloud Messaging
-version: 0.0.5
+version: 0.0.6
 homepage: https://github.com/radikris/push_notification_service
 
 environment:

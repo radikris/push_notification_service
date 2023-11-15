@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'dart:async';
 
 const AndroidNotificationChannel channel = AndroidNotificationChannel(
     'push_notification_channel', // id
@@ -39,8 +40,17 @@ class NotificationService extends StatefulWidget {
 
     AndroidInitializationSettings initializationSettingsAndroid =
         AndroidInitializationSettings(androidIcon ?? '@mipmap/ic_launcher');
+
+    final IOSInitializationSettings initializationSettingsIOS =
+        IOSInitializationSettings(
+            onDidReceiveLocalNotification: (id, title, body, payload) async {
+      print('LOCAL NOTI $id $title $body $payload');
+    });
+
     await flutterLocalNotificationsPlugin.initialize(
-      InitializationSettings(android: initializationSettingsAndroid),
+      InitializationSettings(
+          android: initializationSettingsAndroid,
+          iOS: initializationSettingsIOS),
       onSelectNotification: (payload) {
         print('LOCAL NOTI $payload');
       },
