@@ -1,3 +1,7 @@
+## 0.0.5
+
+- Local notification tap handler and android icon settings
+
 ## 0.0.4
 
 - Added BuildContext as parameter into onTap handler

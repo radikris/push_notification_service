@@ -37,6 +37,15 @@ class NotificationService extends StatefulWidget {
 
     FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
 
+    AndroidInitializationSettings initializationSettingsAndroid =
+        AndroidInitializationSettings(androidIcon ?? '@mipmap/ic_launcher');
+    await flutterLocalNotificationsPlugin.initialize(
+      InitializationSettings(android: initializationSettingsAndroid),
+      onSelectNotification: (payload) {
+        print('LOCAL NOTI $payload');
+      },
+    );
+
     await flutterLocalNotificationsPlugin
         .resolvePlatformSpecificImplementation<
             AndroidFlutterLocalNotificationsPlugin>()
@@ -90,6 +99,7 @@ class _NotificationServiceState extends State<NotificationService> {
     super.initState();
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       debugPrint("onMessage: $message");
+
       RemoteNotification? notification = message.notification;
       AndroidNotification? android = message.notification?.android;
       if (notification != null && android != null) {
