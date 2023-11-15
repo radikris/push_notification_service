@@ -23,13 +23,14 @@ class NotificationService extends StatefulWidget {
   const NotificationService({super.key, required this.child});
 
   static String? androidIcon;
-  static Function(String, RemoteMessage)? notificationClickedRouteHandler;
+  static Function(BuildContext, RemoteMessage)? notificationClickedRouteHandler;
 
   final Widget child;
 
   static Future<void> initNotificationService(
       {String? androidIcon,
-      Function(String, RemoteMessage)? notificationClickedRouteHandler}) async {
+      Function(BuildContext, RemoteMessage)?
+          notificationClickedRouteHandler}) async {
     NotificationService.androidIcon = androidIcon;
     NotificationService.notificationClickedRouteHandler =
         notificationClickedRouteHandler;
@@ -115,33 +116,11 @@ class _NotificationServiceState extends State<NotificationService> {
 
       if (message.notification != null) {
         //"route" will be your root parameter you sending from firebase
-        final routeFromNotification =
-            message.data.containsKey('route') ? message.data['route'] : null;
-        if (routeFromNotification != null) {
-          if (NotificationService.notificationClickedRouteHandler != null) {
-            NotificationService.notificationClickedRouteHandler
-                ?.call(routeFromNotification, message);
-          } else {
-            Navigator.of(context).pushNamed(routeFromNotification);
-          }
+        if (message.data.isNotEmpty) {
+          NotificationService.notificationClickedRouteHandler
+              ?.call(context, message);
         }
       }
-/*       if (notification != null && android != null) {
-        //TODO NAVIGATE USER
-        showDialog(
-            context: context,
-            builder: (_) {
-              return AlertDialog(
-                title: Text(notification.title!),
-                content: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [Text(notification.body!)],
-                  ),
-                ),
-              );
-            });
-      } */
     });
   }
 

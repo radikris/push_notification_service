@@ -1,3 +1,7 @@
+## 0.0.4
+
+- Added BuildContext as parameter into onTap handler
+
 ## 0.0.3
 
 - Added message as parameter into handler
