@@ -103,8 +103,7 @@ class NotificationService extends StatefulWidget {
   State<NotificationService> createState() => _NotificationServiceState();
 }
 
-class _NotificationServiceState extends State<NotificationService>
-    with AutomaticKeepAliveClientMixin {
+class _NotificationServiceState extends State<NotificationService> {
   @override
   void initState() {
     super.initState();
@@ -146,10 +145,6 @@ class _NotificationServiceState extends State<NotificationService>
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
     return widget.child;
   }
-
-  @override
-  bool get wantKeepAlive => true;
 }

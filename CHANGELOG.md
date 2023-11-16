@@ -1,3 +1,7 @@
+## 0.0.9
+
+- Removed keep alive state mixin
+
 ## 0.0.8
 
 - OnTap handler testing
