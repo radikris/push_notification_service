@@ -1,3 +1,7 @@
+## 0.0.7
+
+- Automatic keep alive state mixin
+
 ## 0.0.6
 
 - Local notification ios settings
