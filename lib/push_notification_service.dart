@@ -135,12 +135,11 @@ class _NotificationServiceState extends State<NotificationService>
       debugPrint('A new onMessageOpenedApp event was published!');
       debugPrint('DETAILS: ${message.data}');
 
+      NotificationService.notificationClickedRouteHandler
+          ?.call(context, message);
       if (message.notification != null) {
         //"route" will be your root parameter you sending from firebase
-        if (message.data.isNotEmpty) {
-          NotificationService.notificationClickedRouteHandler
-              ?.call(context, message);
-        }
+        if (message.data.isNotEmpty) {}
       }
     });
   }
